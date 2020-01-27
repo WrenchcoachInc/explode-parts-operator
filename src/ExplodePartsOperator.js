@@ -1,24 +1,8 @@
-import { Vec2, Vec3 } from '../../Math'
-import { Operator } from './Operator.js'
-import { XfoOperatorOutput } from './OperatorOutput.js'
-import {
-  ValueGetMode,
-  ValueSetMode,
-  BooleanParameter,
-  NumberParameter,
-  Vec2Parameter,
-  Vec3Parameter,
-  ListParameter,
-  StructParameter,
-  TreeItemParameter,
-} from '../Parameters'
-
-import { sgFactory } from '../SGFactory.js'
 
 /** Class representing an explode part parameter.
  * @extends StructParameter
  */
-class ExplodePartParameter extends StructParameter {
+class ExplodePartParameter extends ZeaEngine.StructParameter {
   /**
    * Create an explode part parameter.
    * @param {string} name - The name value.
@@ -26,22 +10,22 @@ class ExplodePartParameter extends StructParameter {
   constructor(name) {
     super(name)
 
-    this.__stageParam = this._addMember(new NumberParameter('Stage', 0))
+    this.__stageParam = this._addMember(new ZeaEngine.NumberParameter('Stage', 0))
     this.__axisParam = this._addMember(
-      new Vec3Parameter('Axis', new Vec3(1, 0, 0))
+      new ZeaEngine.Vec3Parameter('Axis', new ZeaEngine.Vec3(1, 0, 0))
     )
 
     // The Movement param enables fine level timing to be set per part.
     this.__movementParam = this._addMember(
-      new Vec2Parameter('MovementTiming', new Vec2(0, 1), [
-        new Vec2(0, 0),
-        new Vec2(1, 1),
+      new ZeaEngine.Vec2Parameter('MovementTiming', new ZeaEngine.Vec2(0, 1), [
+        new ZeaEngine.Vec2(0, 0),
+        new ZeaEngine.Vec2(1, 1),
       ])
     )
     this.__multiplierParam = this._addMember(
-      new NumberParameter('Multiplier', 1.0)
+      new ZeaEngine.NumberParameter('Multiplier', 1.0)
     )
-    this.__output = new XfoOperatorOutput('Part')
+    this.__output = new ZeaEngine.XfoOperatorOutput('Part')
   }
 
   /**
@@ -173,20 +157,20 @@ class ExplodePartsOperator extends Operator {
   constructor(name) {
     super(name)
 
-    this.__stagesParam = this.addParameter(new NumberParameter('Stages', 0))
+    this.__stagesParam = this.addParameter(new ZeaEngine.NumberParameter('Stages', 0))
     this._explodeParam = this.addParameter(
-      new NumberParameter('Explode', 0.0, [0, 1])
+      new ZeaEngine.NumberParameter('Explode', 0.0, [0, 1])
     )
-    this._distParam = this.addParameter(new NumberParameter('Dist', 1.0))
-    this._offsetParam = this.addParameter(new NumberParameter('Offset', 0))
+    this._distParam = this.addParameter(new ZeaEngine.NumberParameter('Dist', 1.0))
+    this._offsetParam = this.addParameter(new ZeaEngine.NumberParameter('Offset', 0))
     this._cascadeParam = this.addParameter(
-      new BooleanParameter('Cascade', false)
+      new ZeaEngine.BooleanParameter('Cascade', false)
     )
     this._centeredParam = this.addParameter(
-      new BooleanParameter('Centered', false)
+      new ZeaEngine.BooleanParameter('Centered', false)
     )
     this.__parentItemParam = this.addParameter(
-      new TreeItemParameter('RelativeTo')
+      new ZeaEngine.TreeItemParameter('RelativeTo')
     )
     this.__parentItemParam.valueChanged.connect(() => {
       // compute the local xfos
@@ -200,7 +184,7 @@ class ExplodePartsOperator extends Operator {
     })
 
     this.__itemsParam = this.addParameter(
-      new ListParameter('Parts', ExplodePartParameter)
+      new ZeaEngine.ListParameter('Parts', ExplodePartParameter)
     )
     this.__itemsParam.elementAdded.connect((value, index) => {
       if (index > 0) {
@@ -293,6 +277,6 @@ class ExplodePartsOperator extends Operator {
   }
 }
 
-sgFactory.registerClass('ExplodePartsOperator', ExplodePartsOperator)
+ZeaEngine.sgFactory.registerClass('ExplodePartsOperator', ExplodePartsOperator)
 
 export { ExplodePartsOperator }
