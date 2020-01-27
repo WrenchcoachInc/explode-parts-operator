@@ -149,7 +149,7 @@ class ExplodePartParameter extends ZeaEngine.StructParameter {
 /** Class representing an explode parts operator.
  * @extends ParameterOwner
  */
-class ExplodePartsOperator extends Operator {
+class ExplodePartsOperator extends ZeaEngine.Operator {
   /**
    * Create an explode parts operator.
    * @param {string} name - The name value.
